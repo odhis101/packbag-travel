@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { API_URL } from '@/lib/config';
 
 interface Package {
   _id: string;
@@ -43,7 +44,7 @@ export default function AdminPackages() {
 
   const fetchPackages = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/packages');
+      const response = await fetch(`${API_URL}/api/packages`);
       const data = await response.json();
       setPackages(data.packages);
     } catch (error) {
@@ -68,8 +69,8 @@ export default function AdminPackages() {
 
     try {
       const url = editingPackage
-        ? `http://localhost:5001/api/packages/${editingPackage._id}`
-        : 'http://localhost:5001/api/packages';
+        ? `${API_URL}/api/packages/${editingPackage._id}`
+        : `${API_URL}/api/packages`;
 
       const method = editingPackage ? 'PUT' : 'POST';
 
@@ -98,7 +99,7 @@ export default function AdminPackages() {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await fetch(`http://localhost:5001/api/packages/${id}`, {
+      const response = await fetch(`${API_URL}/api/packages/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

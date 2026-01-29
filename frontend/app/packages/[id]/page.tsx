@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Navigation from '../../components/Navigation';
+import { API_URL } from '@/lib/config';
 
 interface Package {
   _id: string;
@@ -29,7 +30,7 @@ export default function PackageDetails() {
 
   const fetchPackageDetails = async () => {
     try {
-      const response = await fetch(`http://localhost:5001/api/packages/${params.id}`);
+      const response = await fetch(`${API_URL}/api/packages/${params.id}`);
       const data = await response.json();
       setPkg(data.package);
     } catch (error) {
@@ -50,7 +51,7 @@ export default function PackageDetails() {
     if (!pkg) return;
 
     try {
-      const response = await fetch('http://localhost:5001/api/bookings', {
+      const response = await fetch(`${API_URL}/api/bookings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

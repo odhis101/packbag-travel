@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import Navigation from '../components/Navigation';
+import { API_URL } from '@/lib/config';
 
 interface Package {
   _id: string;
@@ -24,7 +25,7 @@ export default function Packages() {
 
   const fetchPackages = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/packages');
+      const response = await fetch(`${API_URL}/api/packages`);
       const data = await response.json();
       setPackages(data.packages);
     } catch (error) {

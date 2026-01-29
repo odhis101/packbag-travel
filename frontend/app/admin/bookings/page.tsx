@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { API_URL } from '@/lib/config';
 
 interface Booking {
   _id: string;
@@ -39,7 +40,7 @@ export default function AdminBookings() {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await fetch('http://localhost:5001/api/bookings', {
+      const response = await fetch(`${API_URL}/api/bookings`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -59,7 +60,7 @@ export default function AdminBookings() {
 
     try {
       const response = await fetch(
-        `http://localhost:5001/api/bookings/${bookingId}/status`,
+        `${API_URL}/api/bookings/${bookingId}/status`,
         {
           method: 'PUT',
           headers: {

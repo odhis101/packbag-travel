@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Navigation from '../components/Navigation';
+import { API_URL } from '@/lib/config';
 
 interface Booking {
   _id: string;
@@ -35,7 +36,7 @@ export default function MyBookings() {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await fetch('http://localhost:5001/api/bookings/my-bookings', {
+      const response = await fetch(`${API_URL}/api/bookings/my-bookings`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -56,7 +57,7 @@ export default function MyBookings() {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await fetch(`http://localhost:5001/api/bookings/${bookingId}/cancel`, {
+      const response = await fetch(`${API_URL}/api/bookings/${bookingId}/cancel`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
