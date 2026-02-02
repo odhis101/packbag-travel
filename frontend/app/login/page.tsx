@@ -39,8 +39,8 @@ export default function Login() {
   };
 
   return (
-    <div className="blue-gradient flex items-center justify-center min-h-screen">
-      <div className="bg-white/20 backdrop-blur-md rounded-3xl p-12 w-full max-w-md">
+    <div className="blue-gradient flex items-center justify-center min-h-screen px-4">
+      <div className="bg-white/20 backdrop-blur-md rounded-3xl p-6 md:p-12 w-full max-w-md">
         <h1 className="text-white text-4xl font-semibold mb-8 text-center">Login</h1>
 
         {error && (

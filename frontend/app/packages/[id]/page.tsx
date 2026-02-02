@@ -95,8 +95,8 @@ export default function PackageDetails() {
     <div className="blue-gradient min-h-screen">
       <Navigation />
 
-      <div className="max-w-6xl mx-auto px-8 py-12">
-        <Link href="/packages" className="text-white hover:text-gray-200 mb-6 inline-block">
+      <div className="max-w-6xl mx-auto px-4 md:px-8 py-6 md:py-12">
+        <Link href="/packages" className="text-white hover:text-gray-200 mb-4 md:mb-6 inline-block text-sm md:text-base">
           ← Back to Packages
         </Link>
 

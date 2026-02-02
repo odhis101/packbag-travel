@@ -101,12 +101,12 @@ export default function MyBookings() {
     <div className="blue-gradient min-h-screen">
       <Navigation />
 
-      <div className="max-w-7xl mx-auto px-8 py-12">
-        <h1 className="text-white text-5xl font-bold mb-8">My Bookings</h1>
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-12">
+        <h1 className="text-white text-3xl md:text-5xl font-bold mb-6 md:mb-8">My Bookings</h1>
 
         {bookings.length === 0 ? (
-          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-12 text-center">
-            <p className="text-white text-xl mb-4">You haven't made any bookings yet</p>
+          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-6 md:p-12 text-center">
+            <p className="text-white text-lg md:text-xl mb-4">You haven't made any bookings yet</p>
             <a
               href="/packages"
               className="inline-block px-6 py-3 rounded-xl bg-gradient-to-b from-blue-800 to-blue-900 text-white font-semibold hover:from-blue-900 hover:to-blue-950 transition-all"
@@ -115,29 +115,29 @@ export default function MyBookings() {
             </a>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 gap-4 md:gap-6">
             {bookings.map((booking) => (
               <div
                 key={booking._id}
-                className="bg-white/20 backdrop-blur-md rounded-2xl p-6 flex justify-between items-center"
+                className="bg-white/20 backdrop-blur-md rounded-2xl p-4 md:p-6 flex flex-col md:flex-row md:justify-between md:items-center gap-4"
               >
                 <div className="flex-1">
-                  <h3 className="text-white text-2xl font-bold mb-2">
+                  <h3 className="text-white text-xl md:text-2xl font-bold mb-1 md:mb-2">
                     {booking.package.title}
                   </h3>
-                  <p className="text-white/80 mb-2">{booking.package.destination}</p>
-                  <div className="flex gap-4 text-white/90">
+                  <p className="text-white/80 mb-2 text-sm md:text-base">{booking.package.destination}</p>
+                  <div className="flex flex-wrap gap-2 md:gap-4 text-white/90 text-sm md:text-base">
                     <span>Guests: {booking.numberOfGuests}</span>
-                    <span>•</span>
+                    <span className="hidden md:inline">•</span>
                     <span>Total: ${booking.totalPrice}</span>
-                    <span>•</span>
+                    <span className="hidden md:inline">•</span>
                     <span>
                       Booked: {new Date(booking.bookingDate).toLocaleDateString()}
                     </span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3 md:gap-4">
                   <span
                     className={`px-4 py-2 rounded-full text-sm font-semibold border ${getStatusColor(
                       booking.status

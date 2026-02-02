@@ -39,8 +39,8 @@ export default function Packages() {
     <div className="blue-gradient min-h-screen">
       <Navigation />
 
-      <div className="max-w-7xl mx-auto px-8 py-12">
-        <h1 className="text-white text-5xl font-bold mb-8">Explore Packages</h1>
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-12">
+        <h1 className="text-white text-3xl md:text-5xl font-bold mb-6 md:mb-8">Explore Packages</h1>
 
         {loading ? (
           <div className="text-white text-center py-20">Loading packages...</div>

@@ -43,8 +43,8 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="blue-gradient flex items-center justify-center min-h-screen">
-      <div className="bg-white/20 backdrop-blur-md rounded-3xl p-12 w-full max-w-md">
+    <div className="blue-gradient flex items-center justify-center min-h-screen px-4">
+      <div className="bg-white/20 backdrop-blur-md rounded-3xl p-6 md:p-12 w-full max-w-md">
         <h1 className="text-white text-4xl font-semibold mb-2 text-center">Admin Login</h1>
         <p className="text-white/80 text-center mb-8">PackBag Administration</p>
 
