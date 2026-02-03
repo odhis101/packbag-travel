@@ -11,6 +11,7 @@ export default function Signup() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,6 +21,8 @@ export default function Signup() {
       setError('Passwords do not match!');
       return;
     }
+
+    setLoading(true);
 
     try {
       const response = await fetch(`${API_URL}/api/auth/signup`, {
@@ -41,6 +44,8 @@ export default function Signup() {
       }
     } catch (err) {
       setError('Network error. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -85,9 +90,13 @@ export default function Signup() {
 
           <button
             type="submit"
-            className="w-full px-6 py-4 rounded-xl bg-gradient-to-b from-blue-800 to-blue-900 text-white font-semibold hover:from-blue-900 hover:to-blue-950 transition-all shadow-lg"
+            disabled={loading}
+            className="w-full px-6 py-4 rounded-xl bg-gradient-to-b from-blue-800 to-blue-900 text-white font-semibold hover:from-blue-900 hover:to-blue-950 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            Signup
+            {loading && (
+              <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+            )}
+            {loading ? 'Creating account...' : 'Signup'}
           </button>
         </form>
 

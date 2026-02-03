@@ -21,6 +21,7 @@ export default function MyBookings() {
   const router = useRouter();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
+  const [cancellingId, setCancellingId] = useState<string | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -55,6 +56,7 @@ export default function MyBookings() {
     if (!confirm('Are you sure you want to cancel this booking?')) return;
 
     const token = localStorage.getItem('token');
+    setCancellingId(bookingId);
 
     try {
       const response = await fetch(`${API_URL}/api/bookings/${bookingId}/cancel`, {
@@ -70,6 +72,8 @@ export default function MyBookings() {
       }
     } catch (error) {
       console.error('Error cancelling booking:', error);
+    } finally {
+      setCancellingId(null);
     }
   };
 
@@ -90,8 +94,9 @@ export default function MyBookings() {
     return (
       <div className="blue-gradient min-h-screen">
         <Navigation />
-        <div className="flex items-center justify-center min-h-[80vh]">
-          <div className="text-white text-2xl">Loading...</div>
+        <div className="flex flex-col items-center justify-center min-h-[80vh]">
+          <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin mb-4"></div>
+          <p className="text-white text-lg">Loading your bookings...</p>
         </div>
       </div>
     );
@@ -149,9 +154,10 @@ export default function MyBookings() {
                   {booking.status === 'pending' && (
                     <button
                       onClick={() => handleCancelBooking(booking._id)}
-                      className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition"
+                      disabled={cancellingId === booking._id}
+                      className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Cancel
+                      {cancellingId === booking._id ? 'Cancelling...' : 'Cancel'}
                     </button>
                   )}
                 </div>

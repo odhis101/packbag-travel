@@ -25,6 +25,7 @@ export default function AdminBookings() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>('all');
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -57,6 +58,7 @@ export default function AdminBookings() {
 
   const handleStatusUpdate = async (bookingId: string, newStatus: string) => {
     const token = localStorage.getItem('token');
+    setUpdatingId(bookingId);
 
     try {
       const response = await fetch(
@@ -76,6 +78,8 @@ export default function AdminBookings() {
       }
     } catch (error) {
       console.error('Error updating booking status:', error);
+    } finally {
+      setUpdatingId(null);
     }
   };
 
@@ -105,8 +109,9 @@ export default function AdminBookings() {
 
   if (loading) {
     return (
-      <div className="blue-gradient min-h-screen flex items-center justify-center">
-        <div className="text-white text-2xl">Loading...</div>
+      <div className="blue-gradient min-h-screen flex flex-col items-center justify-center">
+        <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin mb-4"></div>
+        <p className="text-white text-lg">Loading bookings...</p>
       </div>
     );
   }
@@ -239,17 +244,19 @@ export default function AdminBookings() {
                           onClick={() =>
                             handleStatusUpdate(booking._id, 'confirmed')
                           }
-                          className="px-3 py-1 rounded-lg bg-green-600 text-white text-sm hover:bg-green-700 transition"
+                          disabled={updatingId === booking._id}
+                          className="px-3 py-1 rounded-lg bg-green-600 text-white text-sm hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          Confirm
+                          {updatingId === booking._id ? '...' : 'Confirm'}
                         </button>
                         <button
                           onClick={() =>
                             handleStatusUpdate(booking._id, 'cancelled')
                           }
-                          className="px-3 py-1 rounded-lg bg-red-600 text-white text-sm hover:bg-red-700 transition"
+                          disabled={updatingId === booking._id}
+                          className="px-3 py-1 rounded-lg bg-red-600 text-white text-sm hover:bg-red-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          Cancel
+                          {updatingId === booking._id ? '...' : 'Cancel'}
                         </button>
                       </div>
                     )}

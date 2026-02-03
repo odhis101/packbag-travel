@@ -22,6 +22,7 @@ export default function PackageDetails() {
   const params = useParams();
   const [pkg, setPkg] = useState<Package | null>(null);
   const [loading, setLoading] = useState(true);
+  const [booking, setBooking] = useState(false);
   const [numberOfGuests, setNumberOfGuests] = useState(1);
 
   useEffect(() => {
@@ -50,6 +51,8 @@ export default function PackageDetails() {
 
     if (!pkg) return;
 
+    setBooking(true);
+
     try {
       const response = await fetch(`${API_URL}/api/bookings`, {
         method: 'POST',
@@ -72,13 +75,16 @@ export default function PackageDetails() {
       }
     } catch (error) {
       alert('Network error. Please try again.');
+    } finally {
+      setBooking(false);
     }
   };
 
   if (loading) {
     return (
-      <div className="blue-gradient min-h-screen flex items-center justify-center">
-        <div className="text-white text-2xl">Loading...</div>
+      <div className="blue-gradient min-h-screen flex flex-col items-center justify-center">
+        <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin mb-4"></div>
+        <p className="text-white text-lg">Loading package details...</p>
       </div>
     );
   }
@@ -175,9 +181,13 @@ export default function PackageDetails() {
 
               <button
                 onClick={handleBooking}
-                className="w-full px-6 py-4 rounded-xl bg-gradient-to-b from-blue-800 to-blue-900 text-white font-semibold hover:from-blue-900 hover:to-blue-950 transition-all shadow-lg"
+                disabled={booking}
+                className="w-full px-6 py-4 rounded-xl bg-gradient-to-b from-blue-800 to-blue-900 text-white font-semibold hover:from-blue-900 hover:to-blue-950 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                Book Now
+                {booking && (
+                  <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                )}
+                {booking ? 'Processing...' : 'Book Now'}
               </button>
             </div>
           </div>

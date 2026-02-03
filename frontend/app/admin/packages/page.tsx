@@ -21,6 +21,8 @@ export default function AdminPackages() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingPackage, setEditingPackage] = useState<Package | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     title: '',
     destination: '',
@@ -56,6 +58,7 @@ export default function AdminPackages() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSaving(true);
 
     const token = localStorage.getItem('token');
     const packageData = {
@@ -90,6 +93,8 @@ export default function AdminPackages() {
       }
     } catch (error) {
       console.error('Error saving package:', error);
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -97,6 +102,7 @@ export default function AdminPackages() {
     if (!confirm('Are you sure you want to delete this package?')) return;
 
     const token = localStorage.getItem('token');
+    setDeletingId(id);
 
     try {
       const response = await fetch(`${API_URL}/api/packages/${id}`, {
@@ -111,6 +117,8 @@ export default function AdminPackages() {
       }
     } catch (error) {
       console.error('Error deleting package:', error);
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -151,8 +159,9 @@ export default function AdminPackages() {
 
   if (loading) {
     return (
-      <div className="blue-gradient min-h-screen flex items-center justify-center">
-        <div className="text-white text-2xl">Loading...</div>
+      <div className="blue-gradient min-h-screen flex flex-col items-center justify-center">
+        <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin mb-4"></div>
+        <p className="text-white text-lg">Loading packages...</p>
       </div>
     );
   }
@@ -223,9 +232,10 @@ export default function AdminPackages() {
                 </button>
                 <button
                   onClick={() => handleDelete(pkg._id)}
-                  className="flex-1 px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition"
+                  disabled={deletingId === pkg._id}
+                  className="flex-1 px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Delete
+                  {deletingId === pkg._id ? 'Deleting...' : 'Delete'}
                 </button>
               </div>
             </div>
@@ -308,17 +318,19 @@ export default function AdminPackages() {
               <div className="flex gap-4">
                 <button
                   type="submit"
-                  className="flex-1 px-6 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
+                  disabled={saving}
+                  className="flex-1 px-6 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {editingPackage ? 'Update' : 'Create'}
+                  {saving ? 'Saving...' : editingPackage ? 'Update' : 'Create'}
                 </button>
                 <button
                   type="button"
+                  disabled={saving}
                   onClick={() => {
                     setShowModal(false);
                     resetForm();
                   }}
-                  className="flex-1 px-6 py-3 rounded-lg bg-gray-400 text-white font-semibold hover:bg-gray-500 transition"
+                  className="flex-1 px-6 py-3 rounded-lg bg-gray-400 text-white font-semibold hover:bg-gray-500 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Cancel
                 </button>
