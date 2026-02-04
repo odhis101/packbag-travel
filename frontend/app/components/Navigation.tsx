@@ -46,10 +46,10 @@ export default function Navigation() {
             </>
           ) : (
             <>
-              <Link href="/signup" className="text-white hover:text-gray-200 transition text-sm md:text-base">
+              <Link href="/auth" className="text-white hover:text-gray-200 transition text-sm md:text-base">
                 Signup
               </Link>
-              <Link href="/login" className="text-white hover:text-gray-200 transition text-sm md:text-base">
+              <Link href="/auth" className="text-white hover:text-gray-200 transition text-sm md:text-base">
                 Login
               </Link>
             </>
