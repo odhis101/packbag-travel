@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+  getCities,
   getAllPackages,
   getPackageById,
   createPackage,
@@ -10,6 +11,7 @@ import { authenticate, authorize } from '../middleware/auth';
 
 const router = express.Router();
 
+router.get('/cities', getCities);
 router.get('/', getAllPackages);
 router.get('/:id', getPackageById);
 router.post('/', authenticate, authorize('admin'), createPackage);

@@ -2,12 +2,24 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IPackage extends Document {
   title: string;
+  city: string;
+  tier: 'Luxury' | 'Mid-Range' | 'Budget';
   destination: string;
   description: string;
   price: number;
   duration: string;
+  images: string[];
   image: string;
   included: string[];
+  restaurants: {
+    name: string;
+    description: string;
+    cuisine?: string;
+  }[];
+  attractions: {
+    name: string;
+    description: string;
+  }[];
   itinerary: {
     day: number;
     title: string;
@@ -26,10 +38,21 @@ const packageSchema = new Schema<IPackage>(
       required: [true, 'Title is required'],
       trim: true,
     },
+    city: {
+      type: String,
+      required: [true, 'City is required'],
+      trim: true,
+      minlength: [1, 'City cannot be empty'],
+    },
+    tier: {
+      type: String,
+      enum: ['Luxury', 'Mid-Range', 'Budget'],
+      required: [true, 'Tier is required'],
+    },
     destination: {
       type: String,
-      required: [true, 'Destination is required'],
       trim: true,
+      default: '',
     },
     description: {
       type: String,
@@ -44,28 +67,36 @@ const packageSchema = new Schema<IPackage>(
       type: String,
       required: [true, 'Duration is required'],
     },
+    images: {
+      type: [String],
+      default: [],
+    },
     image: {
       type: String,
-      default: '/placeholder.jpg',
+      default: '',
     },
     included: {
       type: [String],
       default: [],
     },
+    restaurants: [
+      {
+        name: { type: String, required: true },
+        description: { type: String, required: true },
+        cuisine: { type: String, default: '' },
+      },
+    ],
+    attractions: [
+      {
+        name: { type: String, required: true },
+        description: { type: String, required: true },
+      },
+    ],
     itinerary: [
       {
-        day: {
-          type: Number,
-          required: true,
-        },
-        title: {
-          type: String,
-          required: true,
-        },
-        description: {
-          type: String,
-          required: true,
-        },
+        day: { type: Number, required: true },
+        title: { type: String, required: true },
+        description: { type: String, required: true },
       },
     ],
     isActive: {
