@@ -103,8 +103,8 @@ export default function Packages() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredCities.map((city) => (
               <Link
-                key={city.slug}
-                href={`/packages/city/${city.slug}`}
+                key={city.name}
+                href={`/packages/city/${encodeURIComponent(city.name)}`}
                 className="group relative rounded-2xl overflow-hidden aspect-[4/3] block hover:scale-[1.02] transition-transform duration-300"
               >
                 {city.image ? (

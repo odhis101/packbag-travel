@@ -44,24 +44,16 @@ const TIER_META: Record<string, { icon: string; tagline: string; color: string }
   },
 };
 
-function slugToName(slug: string): string {
-  return slug
-    .split('-')
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(' ');
-}
-
 export default function CityPage() {
   const params = useParams();
-  const citySlug = params.city as string;
-  const cityName = slugToName(citySlug);
+  const cityName = decodeURIComponent(params.city as string);
 
   const [packages, setPackages] = useState<Package[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchPackages();
-  }, [citySlug]);
+  }, [cityName]);
 
   const fetchPackages = async () => {
     try {

@@ -115,7 +115,7 @@ export default function PackageDetails() {
   }
 
   const allImages = pkg.images && pkg.images.length > 0 ? pkg.images : pkg.image ? [pkg.image] : [];
-  const citySlug = pkg.city?.toLowerCase().replace(/\s+/g, '-');
+  const citySlug = pkg.city ? encodeURIComponent(pkg.city) : null;
 
   return (
     <div className="blue-gradient min-h-screen">
